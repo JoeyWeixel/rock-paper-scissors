@@ -1,32 +1,39 @@
+let computerWins = 0;
+let playerWins = 0;
+
+
+
 function computerPlay(){
-    let random = Math.floor(Math.random()*3)
-    if(random === 2) return "Rock";
-    else if(random === 1) return "Paper";
-    else return "Scissors";
+    let random = Math.floor(Math.random()*3);
+    if(random === 2) return "rock";
+    else if(random === 1) return "paper";
+    else return "scissors";
 }
 
-function playRound(playerSelection, computerSelection){
-    playerSelection = playerSelection.toLowerCase();
-    playerSelection = playerSelection[0].toUpperCase() + playerSelection.slice(1);
+function playRound(playerSelection){
+    computerSelection = computerPlay();
     let isPlayerWin = true;
-    if(playerSelection === computerSelection) return "Its a tie!";
-    if(playerSelection === "Rock" && computerSelection === "Paper") isPlayerWin = false;
-    if(playerSelection === "Paper" && computerSelection === "Scissors") isPlayerWin = false;
-    if(playerSelection === "Scissors" && computerSelection === "Rock") isPlayerWin = false;
+    if(playerSelection === computerSelection) return;
+    if(playerSelection === "rock" && computerSelection === "paper") isPlayerWin = false;
+    if(playerSelection === "paper" && computerSelection === "scissors") isPlayerWin = false;
+    if(playerSelection === "scissors" && computerSelection === "rock") isPlayerWin = false;
 
-    return (isPlayerWin ? ("You Win! " + playerSelection + " beats " + computerSelection) : ("You Lose! " + computerSelection + " beats " + playerSelection));
+    isPlayerWin ? playerWins++ : computerWins++;
+    return;
+
+    //return (isPlayerWin ? ("You Win! " + playerSelection + " beats " + computerSelection) : ("You Lose! " + computerSelection + " beats " + playerSelection));
 }
 
-function game(){
-    let playerWins = 0;
-    let computerWins = 0;
-    for(let i=0; i<5; i++){
-        let output = playRound(prompt("Rock Paper or Scissors?"),computerPlay());
-        console.log(output);
-        if (output[4] === "W") playerWins++;
-        if (output[4] === "L") computerWins++;
+function game(e){
+    const text = document.querySelector('.text');
+    console.log(e.target.id)
+    playRound(e.target.id);
+    text.textContent = 'Player: ' + `${playerWins}` + ' Computer: ' + `${computerWins}`;
+    if(playerWins === 5 || computerWins === 5){
+        text.textContent = playerWins>=5 ? 'Player Wins!' : 'Computer Wins!';
     }
-    return playerWins>computerWins ? "Player wins!": "Computer wins!"
+    return;
 }
 
-console.log(game())
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', game));
