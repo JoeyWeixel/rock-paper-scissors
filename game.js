@@ -26,7 +26,6 @@ function playRound(playerSelection){
 
 function game(e){
     const text = document.querySelector('.text');
-    console.log(e.target.id)
     playRound(e.target.id);
     text.textContent = 'Player: ' + `${playerWins}` + ' Computer: ' + `${computerWins}`;
     if(playerWins === 5 || computerWins === 5){
